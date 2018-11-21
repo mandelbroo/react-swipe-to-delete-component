@@ -1,9 +1,9 @@
 /*!
- * React-swipe-to-delete-component v0.3.3
+ * React-swipe-to-delete-component v0.3.4
  * A simple React component implement 'swipe to delete' UI-pattern.
  * https://github.com/gaer87/react-swipe-to-delete-component
 
- * Copyright 2017, Fedotov Alexander
+ * Copyright 2018, Fedotov Alexander
  * Released under the MIT license.
  */
 /* Required styles */
@@ -14,10 +14,15 @@
 	.swipe-to-delete .js-delete {
 		position: absolute !important;
 		top: 0 !important;
-		right: 0 !important;
+		/*right: 0 !important;*/
 		bottom: 0 !important;
-		left: 0 !important;
-		z-index: 1 !important; }
+		/*left: 0 !important;*/
+		z-index: 1 !important;
+		width: 50%; }
+	.swipe-to-delete .left {
+		left: 0 !important; }
+	.swipe-to-delete .right {
+		right: 0 !important; }
 	.swipe-to-delete .js-content {
 		position: relative !important;
 		z-index: 2 !important;

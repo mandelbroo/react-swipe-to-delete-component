@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Background from './background';
+import BackgroundLeft from './backgroundLeft';
+import BackgroundRight from './backgroundRight';
 import Model from './model';
 import isMobile from './utils/isMobile';
 import Device from './utils/device';
@@ -28,7 +29,8 @@ export default class SwipeToDelete extends React.Component {
       this.props.tag,
       {className: `swipe-to-delete ${this.props.classNameTag}`},
       [
-        <div key="delete" className="js-delete">{this.props.background}</div>,
+        <div key="delete" className="js-delete left">{this.props.backgroundLeft}</div>,
+	<div key="delete" className="js-delete right">{this.props.backgroundRight}</div>,
         <div key="content" className="js-content" ref={el => this.regionContent = el}>{this.props.children}</div>
       ]
     );
@@ -46,6 +48,9 @@ export default class SwipeToDelete extends React.Component {
     this.offInteract = this.offInteract.bind(this);
     this.endInteract = this.endInteract.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.onLeft = this.onLeft.bind(this);
+    this.onRight = this.onRight.bind(this);
+    this.onAction = this.onAction.bind(this);
     this.onCancel = this.onCancel.bind(this);
   }
 
@@ -110,9 +115,12 @@ export default class SwipeToDelete extends React.Component {
     const swipePercent = this.getSwipePercent();
 
     const promise = new Promise((resolve, reject) => {
-      if (this.model.isDelete(swipePercent)) {
-        target.addEventListener('transitionend', e => resolve(e), false);
-        swipePercent < 0 ? target.classList.add('js-transition-delete-left') : target.classList.add('js-transition-delete-right');
+      if (this.model.isLeft(swipePercent)) {
+        target.addEventListener('transitionend', e => this.onLeft(e), false);
+        target.classList.add('js-transition-delete-left');
+      } else if (this.model.isRight(swipePercent)) {
+        target.addEventListener('transitionend', e => this.onRight(e), false);
+        target.classList.add('js-transition-delete-right');
       } else {
         target.addEventListener('transitionend', e => reject(e), false);
         target.classList.add('js-transition-cancel');
@@ -120,7 +128,7 @@ export default class SwipeToDelete extends React.Component {
     });
 
     promise
-      .then(this.onDelete, this.onCancel);
+      .then(this.onAction, this.onCancel);
 
     return promise;
   }
@@ -137,6 +145,20 @@ export default class SwipeToDelete extends React.Component {
     this.setState({isDeleted: true});
   }
 
+  onAction(side) {
+    console.log(side);
+  }
+
+  onLeft() {
+    this.props.onLeft();
+    this.setState({isDeleted: true});
+  }
+
+  onRight() {
+    this.props.onRight();
+    this.setState({isDeleted: true});
+  }
+
   onCancel(e) {
     this.props.onCancel();
 
@@ -150,16 +172,22 @@ export default class SwipeToDelete extends React.Component {
 SwipeToDelete.defaultProps = {
   tag: 'div',
   classNameTag: '',
-  background: <Background/>,
+  backgroundLeft: <BackgroundLeft/>,
+  backgroundRight: <BackgroundRight/>,
   onDelete: () => {},
-  onCancel: () => {}
+  onCancel: () => {},
+  onLeft: () => {},
+  onRight: () => {}
 };
 
 SwipeToDelete.propTypes = {
   children: PropTypes.element.isRequired,
-  background: PropTypes.element,
+  backgroundRight: PropTypes.element,
+  backgroundLeft: PropTypes.element,
   onDelete: PropTypes.func,
   onCancel: PropTypes.func,
+  onLeft: PropTypes.func,
+  onRight: PropTypes.func,
   tag: PropTypes.string,
   classNameTag: PropTypes.string,
   deleteSwipe: (props, propName, componentName) => {

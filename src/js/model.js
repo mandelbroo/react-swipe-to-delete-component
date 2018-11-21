@@ -11,4 +11,12 @@ export default class Model {
   isDelete(percent) {
     return ((percent > 0 && percent >= this.deleteSwipe) || (percent < 0 && percent <= -this.deleteSwipe));
   }
+
+  isLeft(percent) {
+    return (percent < 0 && percent <= -this.deleteSwipe);
+  }
+
+  isRight(percent) {
+    return (percent > 0 && percent >= this.deleteSwipe);
+  }
 }

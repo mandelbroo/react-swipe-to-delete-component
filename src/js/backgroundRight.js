@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const Background = () => {
+const BackgroundRight = () => {
   const icon = (
     <svg x="0px" y="0px" width="512px" height="512px" viewBox="0 0 900.5 900.5">
       <g>
@@ -19,4 +19,4 @@ const Background = () => {
   );
 };
 
-export default Background;
+export default BackgroundRight;
