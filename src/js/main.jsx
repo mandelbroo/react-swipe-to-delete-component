@@ -7,12 +7,17 @@ import isMobile from './utils/isMobile';
 import Device from './utils/device';
 import '../css/main.scss';
 
+const LEFT = 'left';
+const RIGHT = 'right';
 
 export default class SwipeToDelete extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {isDeleted: false};
+    this.state = {
+      isDeleted: false,
+      direction: '',
+    };
 
     this.model = new Model({deleteSwipe: this.props.deleteSwipe});
     this.device = Device.factory(isMobile.any());
@@ -25,13 +30,25 @@ export default class SwipeToDelete extends React.Component {
       return null;
     }
 
+    const { direction } = this.state;
+    const {
+      backgroundLeft,
+      backgroundRight,
+      classNameTag,
+      tag,
+      children,
+    } = this.props;
+
+    const leftClass = direction === LEFT ? 'hide' : '';
+    const rightClass = direction === RIGHT ? 'hide' : '';
+
     return React.createElement(
-      this.props.tag,
-      {className: `swipe-to-delete ${this.props.classNameTag}`},
+      tag,
+      {className: `swipe-to-delete ${classNameTag}`},
       [
-        <div key="delete" className="js-delete left">{this.props.backgroundLeft}</div>,
-	<div key="delete" className="js-delete right">{this.props.backgroundRight}</div>,
-        <div key="content" className="js-content" ref={el => this.regionContent = el}>{this.props.children}</div>
+        <div key="delete" className={`js-delete left ${leftClass}`}>{backgroundLeft}</div>,
+        <div key="delete" className={`js-delete right ${rightClass}`}>{backgroundRight}</div>,
+        <div key="content" className="js-content" ref={el => this.regionContent = el}>{children}</div>
       ]
     );
   }
@@ -52,6 +69,8 @@ export default class SwipeToDelete extends React.Component {
     this.onRight = this.onRight.bind(this);
     this.onAction = this.onAction.bind(this);
     this.onCancel = this.onCancel.bind(this);
+    this.onMoveRight = this.onMoveRight.bind(this);
+    this.onMoveLeft = this.onMoveLeft.bind(this);
   }
 
   addHandlers() {
@@ -86,8 +105,19 @@ export default class SwipeToDelete extends React.Component {
   moveAt(e) {
     const target = this.regionContent.firstChild;
     const res = this.device.getPageX(e) - this.model.startX;
-
     target.style.left = `${res}px`;
+    if (res < 0) this.onMoveLeft();
+    if (res > 0) this.onMoveRight();
+  }
+
+  onMoveLeft() {
+    if (this.state.direction !== LEFT)
+    this.setState({ direction: LEFT });
+  }
+
+  onMoveRight() {
+    if (this.state.direction !== RIGHT)
+    this.setState({ direction: RIGHT });
   }
 
   stopInteract() {
@@ -188,6 +218,8 @@ SwipeToDelete.propTypes = {
   onCancel: PropTypes.func,
   onLeft: PropTypes.func,
   onRight: PropTypes.func,
+  onMoveLeft: PropTypes.func,
+  onRightLeft: PropTypes.func,
   tag: PropTypes.string,
   classNameTag: PropTypes.string,
   deleteSwipe: (props, propName, componentName) => {

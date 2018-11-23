@@ -131,6 +131,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var LEFT = 'left';
+	var RIGHT = 'right';
+
 	var SwipeToDelete = function (_React$Component) {
 	  (0, _inherits3.default)(SwipeToDelete, _React$Component);
 
@@ -139,7 +142,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var _this = (0, _possibleConstructorReturn3.default)(this, (SwipeToDelete.__proto__ || (0, _getPrototypeOf2.default)(SwipeToDelete)).call(this, props));
 
-	    _this.state = { isDeleted: false };
+	    _this.state = {
+	      isDeleted: false,
+	      direction: ''
+	    };
 
 	    _this.model = new _model2.default({ deleteSwipe: _this.props.deleteSwipe });
 	    _this.device = _device2.default.factory(_isMobile2.default.any());
@@ -157,20 +163,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return null;
 	      }
 
-	      return _react2.default.createElement(this.props.tag, { className: 'swipe-to-delete ' + this.props.classNameTag }, [_react2.default.createElement(
+	      var direction = this.state.direction;
+	      var _props = this.props,
+	          backgroundLeft = _props.backgroundLeft,
+	          backgroundRight = _props.backgroundRight,
+	          classNameTag = _props.classNameTag,
+	          tag = _props.tag,
+	          children = _props.children;
+
+
+	      var leftClass = direction === LEFT ? 'hide' : '';
+	      var rightClass = direction === RIGHT ? 'hide' : '';
+	      // const leftClass = direction === RIGHT ? '' : 'hide';
+	      // const rightClass = direction === LEFT ? '' : 'hide';
+
+	      // const key = Date.now();
+	      // {`drag-left${key}`}
+	      // <div key={`drag-left${key}`} className={`js-delete left ${leftClass}`}>{backgroundLeft}</div>,
+	      //   <div key={`drag-right${key}`} className={`js-delete right ${rightClass}`}>{backgroundRight}</div>,
+	      //   <div key={`drag-left${key}`} className="js-content" ref={el => this.regionContent = el}>{children}</div>
+	      return _react2.default.createElement(tag, { className: 'swipe-to-delete ' + classNameTag }, [_react2.default.createElement(
 	        'div',
-	        { key: 'delete', className: 'js-delete left' },
-	        this.props.backgroundLeft
+	        { key: 'delete', className: 'js-delete left ' + leftClass },
+	        backgroundLeft
 	      ), _react2.default.createElement(
 	        'div',
-	        { key: 'delete', className: 'js-delete right' },
-	        this.props.backgroundRight
+	        { key: 'delete', className: 'js-delete right ' + rightClass },
+	        backgroundRight
 	      ), _react2.default.createElement(
 	        'div',
 	        { key: 'content', className: 'js-content', ref: function ref(el) {
 	            return _this2.regionContent = el;
 	          } },
-	        this.props.children
+	        children
 	      )]);
 	    }
 	  }, {
@@ -192,6 +217,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.onRight = this.onRight.bind(this);
 	      this.onAction = this.onAction.bind(this);
 	      this.onCancel = this.onCancel.bind(this);
+	      this.onMoveRight = this.onMoveRight.bind(this);
+	      this.onMoveLeft = this.onMoveLeft.bind(this);
 	    }
 	  }, {
 	    key: 'addHandlers',
@@ -229,8 +256,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function moveAt(e) {
 	      var target = this.regionContent.firstChild;
 	      var res = this.device.getPageX(e) - this.model.startX;
-
 	      target.style.left = res + 'px';
+	      if (res < 0) this.onMoveLeft();
+	      if (res > 0) this.onMoveRight();
+	    }
+	  }, {
+	    key: 'onMoveLeft',
+	    value: function onMoveLeft() {
+	      if (this.state.direction !== LEFT) this.setState({ direction: LEFT });
+	    }
+	  }, {
+	    key: 'onMoveRight',
+	    value: function onMoveRight() {
+	      if (this.state.direction !== RIGHT) this.setState({ direction: RIGHT });
 	    }
 	  }, {
 	    key: 'stopInteract',
@@ -362,6 +400,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  onCancel: _propTypes2.default.func,
 	  onLeft: _propTypes2.default.func,
 	  onRight: _propTypes2.default.func,
+	  onMoveLeft: _propTypes2.default.func,
+	  onRightLeft: _propTypes2.default.func,
 	  tag: _propTypes2.default.string,
 	  classNameTag: _propTypes2.default.string,
 	  deleteSwipe: function deleteSwipe(props, propName, componentName) {
@@ -3873,31 +3913,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BackgroundRight = function BackgroundRight() {
 	  var icon = _react2.default.createElement(
 	    "svg",
-	    { x: "0px", y: "0px", width: "512px", height: "512px", viewBox: "0 0 900.5 900.5" },
-	    _react2.default.createElement(
-	      "g",
-	      null,
-	      _react2.default.createElement("path", { d: "M176.415,880.5c0,11.046,8.954,20,20,20h507.67c11.046,0,20-8.954,20-20V232.487h-547.67V880.5L176.415,880.5z    M562.75,342.766h75v436.029h-75V342.766z M412.75,342.766h75v436.029h-75V342.766z M262.75,342.766h75v436.029h-75V342.766z", fill: "#FFFFFF" })
-	    ),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null)
+	    { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
+	    _react2.default.createElement("path", { fill: "white", d: "M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" })
 	  );
 
 	  return _react2.default.createElement(
-	    "div",
+	    _react2.default.Fragment,
 	    null,
 	    icon
 	  );
@@ -3924,32 +3945,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BackgroundRight = function BackgroundRight() {
 	  var icon = _react2.default.createElement(
 	    "svg",
-	    { x: "0px", y: "0px", width: "512px", height: "512px", viewBox: "0 0 900.5 900.5" },
-	    _react2.default.createElement(
-	      "g",
-	      null,
-	      _react2.default.createElement("path", { d: "M176.415,880.5c0,11.046,8.954,20,20,20h507.67c11.046,0,20-8.954,20-20V232.487h-547.67V880.5L176.415,880.5z    M562.75,342.766h75v436.029h-75V342.766z M412.75,342.766h75v436.029h-75V342.766z M262.75,342.766h75v436.029h-75V342.766z", fill: "#FFFFFF" }),
-	      _react2.default.createElement("path", { d: "M618.825,91.911V20c0-11.046-8.954-20-20-20h-297.15c-11.046,0-20,8.954-20,20v71.911v12.5v12.5H141.874   c-11.046,0-20,8.954-20,20v50.576c0,11.045,8.954,20,20,20h34.541h547.67h34.541c11.046,0,20-8.955,20-20v-50.576   c0-11.046-8.954-20-20-20H618.825v-12.5V91.911z M543.825,112.799h-187.15v-8.389v-12.5V75h187.15v16.911v12.5V112.799z", fill: "#FFFFFF" })
-	    ),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null),
-	    _react2.default.createElement("g", null)
+	    { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
+	    _react2.default.createElement("path", { fill: "white", d: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" }),
+	    _react2.default.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
 	  );
 
 	  return _react2.default.createElement(
-	    "div",
+	    _react2.default.Fragment,
 	    null,
 	    icon
 	  );
