@@ -174,21 +174,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      var leftClass = direction === LEFT ? 'hide' : '';
 	      var rightClass = direction === RIGHT ? 'hide' : '';
-	      // const leftClass = direction === RIGHT ? '' : 'hide';
-	      // const rightClass = direction === LEFT ? '' : 'hide';
 
-	      // const key = Date.now();
-	      // {`drag-left${key}`}
-	      // <div key={`drag-left${key}`} className={`js-delete left ${leftClass}`}>{backgroundLeft}</div>,
-	      //   <div key={`drag-right${key}`} className={`js-delete right ${rightClass}`}>{backgroundRight}</div>,
-	      //   <div key={`drag-left${key}`} className="js-content" ref={el => this.regionContent = el}>{children}</div>
 	      return _react2.default.createElement(tag, { className: 'swipe-to-delete ' + classNameTag }, [_react2.default.createElement(
 	        'div',
-	        { key: 'delete', className: 'js-delete left ' + leftClass },
+	        { key: 'left', className: 'js-delete left ' + leftClass },
 	        backgroundLeft
 	      ), _react2.default.createElement(
 	        'div',
-	        { key: 'delete', className: 'js-delete right ' + rightClass },
+	        { key: 'right', className: 'js-delete right ' + rightClass },
 	        backgroundRight
 	      ), _react2.default.createElement(
 	        'div',

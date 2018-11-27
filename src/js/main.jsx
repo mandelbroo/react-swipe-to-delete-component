@@ -46,8 +46,8 @@ export default class SwipeToDelete extends React.Component {
       tag,
       {className: `swipe-to-delete ${classNameTag}`},
       [
-        <div key="delete" className={`js-delete left ${leftClass}`}>{backgroundLeft}</div>,
-        <div key="delete" className={`js-delete right ${rightClass}`}>{backgroundRight}</div>,
+        <div key="left" className={`js-delete left ${leftClass}`}>{backgroundLeft}</div>,
+        <div key="right" className={`js-delete right ${rightClass}`}>{backgroundRight}</div>,
         <div key="content" className="js-content" ref={el => this.regionContent = el}>{children}</div>
       ]
     );
