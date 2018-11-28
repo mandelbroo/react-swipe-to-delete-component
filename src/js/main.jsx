@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import BackgroundLeft from './backgroundLeft';
-import BackgroundRight from './backgroundRight';
-import Model from './model';
-import isMobile from './utils/isMobile';
-import Device from './utils/device';
-import '../css/main.scss';
+import React from "react";
+import PropTypes from "prop-types";
+import BackgroundLeft from "./backgroundLeft";
+import BackgroundRight from "./backgroundRight";
+import Model from "./model";
+import isMobile from "./utils/isMobile";
+import Device from "./utils/device";
+import "../css/main.scss";
 
-const LEFT = 'left';
-const RIGHT = 'right';
+const LEFT = "left";
+const RIGHT = "right";
 
 export default class SwipeToDelete extends React.Component {
   constructor(props) {
@@ -16,10 +16,10 @@ export default class SwipeToDelete extends React.Component {
 
     this.state = {
       isDeleted: false,
-      direction: '',
+      direction: ""
     };
 
-    this.model = new Model({deleteSwipe: this.props.deleteSwipe});
+    this.model = new Model({ deleteSwipe: this.props.deleteSwipe });
     this.device = Device.factory(isMobile.any());
 
     this.bindHandlers();
@@ -36,19 +36,29 @@ export default class SwipeToDelete extends React.Component {
       backgroundRight,
       classNameTag,
       tag,
-      children,
+      children
     } = this.props;
 
-    const leftClass = direction === LEFT ? 'hide' : '';
-    const rightClass = direction === RIGHT ? 'hide' : '';
+    const leftClass = direction === LEFT ? "hide" : "";
+    const rightClass = direction === RIGHT ? "hide" : "";
 
     return React.createElement(
       tag,
-      {className: `swipe-to-delete ${classNameTag}`},
+      { className: `swipe-to-delete ${classNameTag}` },
       [
-        <div key="left" className={`js-delete left ${leftClass}`}>{backgroundLeft}</div>,
-        <div key="right" className={`js-delete right ${rightClass}`}>{backgroundRight}</div>,
-        <div key="content" className="js-content" ref={el => this.regionContent = el}>{children}</div>
+        <div key="left" className={`js-delete left ${leftClass}`}>
+          {backgroundLeft}
+        </div>,
+        <div key="right" className={`js-delete right ${rightClass}`}>
+          {backgroundRight}
+        </div>,
+        <div
+          key="content"
+          className="js-content"
+          ref={el => (this.regionContent = el)}
+        >
+          {children}
+        </div>
       ]
     );
   }
@@ -84,22 +94,38 @@ export default class SwipeToDelete extends React.Component {
   startInteract() {
     return new Promise(resolve => {
       this.onInteract = e => {
-        el.removeEventListener(this.device.getStartEventName(), this.onInteract, false);
+        el.removeEventListener(
+          this.device.getStartEventName(),
+          this.onInteract,
+          false
+        );
         this.model.startX = this.device.getPageX(e);
         resolve();
       };
 
       const el = this.regionContent.firstChild;
-      el.addEventListener(this.device.getStartEventName(), this.onInteract, false);
+      el.addEventListener(
+        this.device.getStartEventName(),
+        this.onInteract,
+        false
+      );
     });
   }
 
   interact() {
-    document.addEventListener(this.device.getInteractEventName(), this.moveAt, false);
+    document.addEventListener(
+      this.device.getInteractEventName(),
+      this.moveAt,
+      false
+    );
   }
 
   offInteract() {
-    document.removeEventListener(this.device.getInteractEventName(), this.moveAt, false);
+    document.removeEventListener(
+      this.device.getInteractEventName(),
+      this.moveAt,
+      false
+    );
   }
 
   moveAt(e) {
@@ -111,13 +137,11 @@ export default class SwipeToDelete extends React.Component {
   }
 
   onMoveLeft() {
-    if (this.state.direction !== LEFT)
-    this.setState({ direction: LEFT });
+    if (this.state.direction !== LEFT) this.setState({ direction: LEFT });
   }
 
   onMoveRight() {
-    if (this.state.direction !== RIGHT)
-    this.setState({ direction: RIGHT });
+    if (this.state.direction !== RIGHT) this.setState({ direction: RIGHT });
   }
 
   stopInteract() {
@@ -126,7 +150,11 @@ export default class SwipeToDelete extends React.Component {
 
       this._onStopInteract = e => this.onStopInteract(e, resolve, reject);
 
-      this.device.getStopEventNames().forEach(eventName => el.addEventListener(eventName, this._onStopInteract, false));
+      this.device
+        .getStopEventNames()
+        .forEach(eventName =>
+          el.addEventListener(eventName, this._onStopInteract, false)
+        );
     });
   }
 
@@ -134,7 +162,11 @@ export default class SwipeToDelete extends React.Component {
     const el = this.regionContent.firstChild;
 
     this.offInteract();
-    this.device.getStopEventNames().forEach(eventName => el.removeEventListener(eventName, this._onStopInteract, false));
+    this.device
+      .getStopEventNames()
+      .forEach(eventName =>
+        el.removeEventListener(eventName, this._onStopInteract, false)
+      );
 
     const shift = e.currentTarget.offsetLeft;
     !shift ? reject() : resolve();
@@ -146,19 +178,18 @@ export default class SwipeToDelete extends React.Component {
 
     const promise = new Promise((resolve, reject) => {
       if (this.model.isLeft(swipePercent)) {
-        target.addEventListener('transitionend', e => this.onLeft(e), false);
-        target.classList.add('js-transition-delete-left');
+        target.addEventListener("transitionend", e => this.onLeft(e), false);
+        target.classList.add("js-transition-delete-left");
       } else if (this.model.isRight(swipePercent)) {
-        target.addEventListener('transitionend', e => this.onRight(e), false);
-        target.classList.add('js-transition-delete-right');
+        target.addEventListener("transitionend", e => this.onRight(e), false);
+        target.classList.add("js-transition-delete-right");
       } else {
-        target.addEventListener('transitionend', e => reject(e), false);
-        target.classList.add('js-transition-cancel');
+        target.addEventListener("transitionend", e => reject(e), false);
+        target.classList.add("js-transition-cancel");
       }
     });
 
-    promise
-      .then(this.onAction, this.onCancel);
+    promise.then(this.onAction, this.onCancel);
 
     return promise;
   }
@@ -167,12 +198,12 @@ export default class SwipeToDelete extends React.Component {
     const shift = this.regionContent.firstChild.offsetLeft;
     const width = this.regionContent.clientWidth;
 
-    return this.model.calcSwipePercent({shift, width});
+    return this.model.calcSwipePercent({ shift, width });
   }
 
   onDelete() {
     this.props.onDelete();
-    this.setState({isDeleted: true});
+    this.setState({ isDeleted: true });
   }
 
   onAction(side) {
@@ -181,29 +212,29 @@ export default class SwipeToDelete extends React.Component {
 
   onLeft() {
     this.props.onLeft();
-    this.setState({isDeleted: true});
+    this.setState({ isDeleted: true });
   }
 
   onRight() {
     this.props.onRight();
-    this.setState({isDeleted: true});
+    this.setState({ isDeleted: true });
   }
 
   onCancel(e) {
     this.props.onCancel();
 
     const target = e.currentTarget;
-    target.classList.remove('js-transition-cancel');
+    target.classList.remove("js-transition-cancel");
 
     this.model.startX = target.style.left = 0;
   }
 }
 
 SwipeToDelete.defaultProps = {
-  tag: 'div',
-  classNameTag: '',
-  backgroundLeft: <BackgroundLeft/>,
-  backgroundRight: <BackgroundRight/>,
+  tag: "div",
+  classNameTag: "",
+  backgroundLeft: <BackgroundLeft />,
+  backgroundRight: <BackgroundRight />,
   onDelete: () => {},
   onCancel: () => {},
   onLeft: () => {},
@@ -219,7 +250,7 @@ SwipeToDelete.propTypes = {
   onLeft: PropTypes.func,
   onRight: PropTypes.func,
   onMoveLeft: PropTypes.func,
-  onRightLeft: PropTypes.func,
+  onMoveRight: PropTypes.func,
   tag: PropTypes.string,
   classNameTag: PropTypes.string,
   deleteSwipe: (props, propName, componentName) => {
@@ -229,12 +260,16 @@ SwipeToDelete.propTypes = {
       return;
     }
 
-    if (typeof val !== 'number') {
-      return new Error(`Invalid prop "deleteSwipe" in ${componentName}: can be number only.`);
+    if (typeof val !== "number") {
+      return new Error(
+        `Invalid prop "deleteSwipe" in ${componentName}: can be number only.`
+      );
     }
 
     if (val < 0 || val > 1) {
-      return new Error(`Invalid prop "deleteSwipe" in ${componentName}: can be in range [0, 1].`);
+      return new Error(
+        `Invalid prop "deleteSwipe" in ${componentName}: can be in range [0, 1].`
+      );
     }
   }
 };
