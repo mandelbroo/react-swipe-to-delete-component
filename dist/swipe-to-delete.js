@@ -69,7 +69,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -131,8 +131,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var LEFT = 'left';
-	var RIGHT = 'right';
+	var LEFT = "left";
+	var RIGHT = "right";
 
 	var SwipeToDelete = function (_React$Component) {
 	  (0, _inherits3.default)(SwipeToDelete, _React$Component);
@@ -144,7 +144,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _this.state = {
 	      isDeleted: false,
-	      direction: ''
+	      direction: ""
 	    };
 
 	    _this.model = new _model2.default({ deleteSwipe: _this.props.deleteSwipe });
@@ -155,7 +155,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  (0, _createClass3.default)(SwipeToDelete, [{
-	    key: 'render',
+	    key: "render",
 	    value: function render() {
 	      var _this2 = this;
 
@@ -172,32 +172,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	          children = _props.children;
 
 
-	      var leftClass = direction === LEFT ? 'hide' : '';
-	      var rightClass = direction === RIGHT ? 'hide' : '';
+	      var leftClass = direction === LEFT ? "hide" : "";
+	      var rightClass = direction === RIGHT ? "hide" : "";
 
-	      return _react2.default.createElement(tag, { className: 'swipe-to-delete ' + classNameTag }, [_react2.default.createElement(
-	        'div',
-	        { key: 'left', className: 'js-delete left ' + leftClass },
+	      return _react2.default.createElement(tag, { className: "swipe-to-delete " + classNameTag }, [_react2.default.createElement(
+	        "div",
+	        { key: "left", className: "js-delete left " + leftClass },
 	        backgroundLeft
 	      ), _react2.default.createElement(
-	        'div',
-	        { key: 'right', className: 'js-delete right ' + rightClass },
+	        "div",
+	        { key: "right", className: "js-delete right " + rightClass },
 	        backgroundRight
 	      ), _react2.default.createElement(
-	        'div',
-	        { key: 'content', className: 'js-content', ref: function ref(el) {
+	        "div",
+	        {
+	          key: "content",
+	          className: "js-content",
+	          ref: function ref(el) {
 	            return _this2.regionContent = el;
-	          } },
+	          }
+	        },
 	        children
 	      )]);
 	    }
 	  }, {
-	    key: 'componentDidMount',
+	    key: "componentDidMount",
 	    value: function componentDidMount() {
 	      this.addHandlers();
 	    }
 	  }, {
-	    key: 'bindHandlers',
+	    key: "bindHandlers",
 	    value: function bindHandlers() {
 	      this.addHandlers = this.addHandlers.bind(this);
 	      this.interact = this.interact.bind(this);
@@ -214,12 +218,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.onMoveLeft = this.onMoveLeft.bind(this);
 	    }
 	  }, {
-	    key: 'addHandlers',
+	    key: "addHandlers",
 	    value: function addHandlers() {
 	      this.step = this.startInteract().then(this.interact).then(this.stopInteract).then(this.endInteract).catch(this.addHandlers);
 	    }
 	  }, {
-	    key: 'startInteract',
+	    key: "startInteract",
 	    value: function startInteract() {
 	      var _this3 = this;
 
@@ -235,36 +239,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	  }, {
-	    key: 'interact',
+	    key: "interact",
 	    value: function interact() {
 	      document.addEventListener(this.device.getInteractEventName(), this.moveAt, false);
 	    }
 	  }, {
-	    key: 'offInteract',
+	    key: "offInteract",
 	    value: function offInteract() {
 	      document.removeEventListener(this.device.getInteractEventName(), this.moveAt, false);
 	    }
 	  }, {
-	    key: 'moveAt',
+	    key: "moveAt",
 	    value: function moveAt(e) {
 	      var target = this.regionContent.firstChild;
 	      var res = this.device.getPageX(e) - this.model.startX;
-	      target.style.left = res + 'px';
+	      target.style.left = res + "px";
 	      if (res < 0) this.onMoveLeft();
 	      if (res > 0) this.onMoveRight();
 	    }
 	  }, {
-	    key: 'onMoveLeft',
+	    key: "onMoveLeft",
 	    value: function onMoveLeft() {
 	      if (this.state.direction !== LEFT) this.setState({ direction: LEFT });
 	    }
 	  }, {
-	    key: 'onMoveRight',
+	    key: "onMoveRight",
 	    value: function onMoveRight() {
 	      if (this.state.direction !== RIGHT) this.setState({ direction: RIGHT });
 	    }
 	  }, {
-	    key: 'stopInteract',
+	    key: "stopInteract",
 	    value: function stopInteract() {
 	      var _this4 = this;
 
@@ -281,7 +285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	  }, {
-	    key: 'onStopInteract',
+	    key: "onStopInteract",
 	    value: function onStopInteract(e, resolve, reject) {
 	      var _this5 = this;
 
@@ -296,7 +300,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      !shift ? reject() : resolve();
 	    }
 	  }, {
-	    key: 'endInteract',
+	    key: "endInteract",
 	    value: function endInteract() {
 	      var _this6 = this;
 
@@ -305,20 +309,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      var promise = new _promise2.default(function (resolve, reject) {
 	        if (_this6.model.isLeft(swipePercent)) {
-	          target.addEventListener('transitionend', function (e) {
-	            return _this6.onLeft(e);
+	          target.addEventListener("transitionend", function (e) {
+	            target.parentElement.parentElement.classList.add("js-shrink");
+	            setTimeout(300, function () {
+	              return _this6.onLeft(e);
+	            });
 	          }, false);
-	          target.classList.add('js-transition-delete-left');
+	          target.classList.add("js-transition-delete-left");
 	        } else if (_this6.model.isRight(swipePercent)) {
-	          target.addEventListener('transitionend', function (e) {
-	            return _this6.onRight(e);
+	          target.addEventListener("transitionend", function (e) {
+	            target.parentElement.parentElement.classList.add("js-shrink");
+	            setTimeout(300, function () {
+	              return _this6.onRight(e);
+	            });
 	          }, false);
-	          target.classList.add('js-transition-delete-right');
+	          target.classList.add("js-transition-delete-right");
 	        } else {
-	          target.addEventListener('transitionend', function (e) {
+	          target.addEventListener("transitionend", function (e) {
 	            return reject(e);
 	          }, false);
-	          target.classList.add('js-transition-cancel');
+	          target.classList.add("js-transition-cancel");
 	        }
 	      });
 
@@ -327,7 +337,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return promise;
 	    }
 	  }, {
-	    key: 'getSwipePercent',
+	    key: "getSwipePercent",
 	    value: function getSwipePercent() {
 	      var shift = this.regionContent.firstChild.offsetLeft;
 	      var width = this.regionContent.clientWidth;
@@ -335,35 +345,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this.model.calcSwipePercent({ shift: shift, width: width });
 	    }
 	  }, {
-	    key: 'onDelete',
+	    key: "onDelete",
 	    value: function onDelete() {
 	      this.props.onDelete();
 	      this.setState({ isDeleted: true });
 	    }
 	  }, {
-	    key: 'onAction',
+	    key: "onAction",
 	    value: function onAction(side) {
 	      console.log(side);
 	    }
 	  }, {
-	    key: 'onLeft',
+	    key: "onLeft",
 	    value: function onLeft() {
 	      this.props.onLeft();
 	      this.setState({ isDeleted: true });
 	    }
 	  }, {
-	    key: 'onRight',
+	    key: "onRight",
 	    value: function onRight() {
 	      this.props.onRight();
 	      this.setState({ isDeleted: true });
 	    }
 	  }, {
-	    key: 'onCancel',
+	    key: "onCancel",
 	    value: function onCancel(e) {
 	      this.props.onCancel();
 
 	      var target = e.currentTarget;
-	      target.classList.remove('js-transition-cancel');
+	      target.classList.remove("js-transition-cancel");
 
 	      this.model.startX = target.style.left = 0;
 	    }
@@ -375,8 +385,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	SwipeToDelete.defaultProps = {
-	  tag: 'div',
-	  classNameTag: '',
+	  tag: "div",
+	  classNameTag: "",
 	  backgroundLeft: _react2.default.createElement(_backgroundLeft2.default, null),
 	  backgroundRight: _react2.default.createElement(_backgroundRight2.default, null),
 	  onDelete: function onDelete() {},
@@ -394,7 +404,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  onLeft: _propTypes2.default.func,
 	  onRight: _propTypes2.default.func,
 	  onMoveLeft: _propTypes2.default.func,
-	  onRightLeft: _propTypes2.default.func,
+	  onMoveRight: _propTypes2.default.func,
 	  tag: _propTypes2.default.string,
 	  classNameTag: _propTypes2.default.string,
 	  deleteSwipe: function deleteSwipe(props, propName, componentName) {
@@ -404,12 +414,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 
-	    if (typeof val !== 'number') {
-	      return new Error('Invalid prop "deleteSwipe" in ' + componentName + ': can be number only.');
+	    if (typeof val !== "number") {
+	      return new Error("Invalid prop \"deleteSwipe\" in " + componentName + ": can be number only.");
 	    }
 
 	    if (val < 0 || val > 1) {
-	      return new Error('Invalid prop "deleteSwipe" in ' + componentName + ': can be in range [0, 1].');
+	      return new Error("Invalid prop \"deleteSwipe\" in " + componentName + ": can be in range [0, 1].");
 	    }
 	  }
 	};

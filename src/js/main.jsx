@@ -178,10 +178,24 @@ export default class SwipeToDelete extends React.Component {
 
     const promise = new Promise((resolve, reject) => {
       if (this.model.isLeft(swipePercent)) {
-        target.addEventListener("transitionend", e => this.onLeft(e), false);
+        target.addEventListener(
+          "transitionend",
+          e => {
+            target.parentElement.parentElement.classList.add("js-shrink");
+            setTimeout(300, () => this.onLeft(e));
+          },
+          false
+        );
         target.classList.add("js-transition-delete-left");
       } else if (this.model.isRight(swipePercent)) {
-        target.addEventListener("transitionend", e => this.onRight(e), false);
+        target.addEventListener(
+          "transitionend",
+          e => {
+            target.parentElement.parentElement.classList.add("js-shrink");
+            setTimeout(300, () => this.onRight(e));
+          },
+          false
+        );
         target.classList.add("js-transition-delete-right");
       } else {
         target.addEventListener("transitionend", e => reject(e), false);
