@@ -311,17 +311,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (_this6.model.isLeft(swipePercent)) {
 	          target.addEventListener("transitionend", function (e) {
 	            target.parentElement.parentElement.classList.add("js-shrink");
-	            setTimeout(300, function () {
+	            setTimeout(function () {
 	              return _this6.onLeft(e);
-	            });
+	            }, 300);
 	          }, false);
 	          target.classList.add("js-transition-delete-left");
 	        } else if (_this6.model.isRight(swipePercent)) {
 	          target.addEventListener("transitionend", function (e) {
 	            target.parentElement.parentElement.classList.add("js-shrink");
-	            setTimeout(300, function () {
+	            setTimeout(function () {
 	              return _this6.onRight(e);
-	            });
+	            }, 300);
 	          }, false);
 	          target.classList.add("js-transition-delete-right");
 	        } else {

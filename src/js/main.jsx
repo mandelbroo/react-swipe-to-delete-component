@@ -182,7 +182,7 @@ export default class SwipeToDelete extends React.Component {
           "transitionend",
           e => {
             target.parentElement.parentElement.classList.add("js-shrink");
-            setTimeout(300, () => this.onLeft(e));
+            setTimeout(() => this.onLeft(e), 300);
           },
           false
         );
@@ -192,7 +192,7 @@ export default class SwipeToDelete extends React.Component {
           "transitionend",
           e => {
             target.parentElement.parentElement.classList.add("js-shrink");
-            setTimeout(300, () => this.onRight(e));
+            setTimeout(() => this.onRight(e), 300);
           },
           false
         );
